@@ -7,6 +7,12 @@ Kalman Filter based approach (ESKF).
 # RANSAC implementation
 The task involves implementing the RANSAC algorithm to estimate the rotation and translation from stereo correspondences. The algorithm iteratively selects random subsets of correspondences, evaluates inliers using a threshold, and returns the recovered w and t estimates along with the inlier boolean array.
 
+<img width="681" alt="Screenshot 2023-08-08 at 7 28 29 AM" src="https://github.com/RenuReddyK/Visual-Inertial-Odometry-EuRoc-dataset/assets/68454938/bab442ee-117f-41ef-86ed-4832b4751ddd">
+
+<img width="642" alt="Screenshot 2023-08-08 at 7 28 40 AM" src="https://github.com/RenuReddyK/Visual-Inertial-Odometry-EuRoc-dataset/assets/68454938/9c5ce68b-6dad-41ee-9d8e-7aaa6487188d">
+
+Implementing the algorithm for zero RANSAC iterations considered all the point correspondences (irrespective of whether they are inliers or outliers). Whereas when we implemented for 10 RANSAC iterations then the w, t were obtained for the maximum inlier point correspondences. From the plot, we can see that significant number of inliers and outliers are separated from eachother for 10 RANSAC iterations.
+
 # The ESKF algorithm consists of three main tasks:
 Task 1: Updating the Nominal State
 The first step in the ESKF algorithm involves updating the nominal state based on the prevailing measurements from the Inertial Measurement Unit (IMU).
