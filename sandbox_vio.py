@@ -10,8 +10,7 @@ from numpy.linalg import norm
 
 # %% Import IMU dataset
 #  CSV imu file
-dirname = '/Users/renu/Desktop/Upenn/Sem_2/MEAM620/HWs/HW2/Project 2_3/meam620/proj2_3/dataset/MachineHall01_reduced/imu0/'
-# ../dataset/MachineHall01_reduced/imu0/'
+dirname = '../dataset/MachineHall01_reduced/imu0/'
 
 imu0 = np.genfromtxt(dirname + 'data.csv', delimiter=',', dtype='float64', skip_header=1)
 
@@ -48,7 +47,6 @@ R_LB = dataset.stereo_calibration.tr_base_left[0:3, 0:3].T
 
 imu_index = 0
 stereo_index = 0
-
 first_image_timestamp = float(dataset.get_timestamp(0))
 
 while imu_timestamp[imu_index] < first_image_timestamp:
@@ -56,13 +54,9 @@ while imu_timestamp[imu_index] < first_image_timestamp:
 
 stereo_pair_2 = dataset.process_stereo_pair(0)
 stereo_index += 1
-
 next_image_time = float(dataset.get_timestamp(stereo_index))
-
 last_timestamp = first_image_timestamp
-
 nimages = 200
-
 focal_length = dataset.rectified_camera_matrix[0, 0]
 
 image_measurement_covariance = ((0.5 / focal_length) ** 2) * np.eye(2)
@@ -94,10 +88,8 @@ w_b_all= []
 
 # %% Main Loop
 while True:
-
     if imu_index >= imu0.shape[0]:
         break
-
     if stereo_index >= nimages:
         break
 
