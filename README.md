@@ -17,5 +17,9 @@ The final task involves implementing a function that updates the nominal state a
 
 Overall, the ESKF algorithm provides a way to estimate the state of a system based on IMU measurements and image data, incorporating the uncertainties in the measurements and maintaining an estimate of the error covariance to improve the accuracy of the state estimation.
 
+<img width="794" alt="Screenshot 2023-08-08 at 7 02 35 AM" src="https://github.com/RenuReddyK/Visual-Inertial-Odometry-EuRoc-dataset/assets/68454938/5438af2f-abdf-47a0-a2c1-49adc4db28c7">
+
+The trace of covariance converges by decreasing exponentially with respect to time. Behavior of the accelerometer bias: There is a spike in the accelerometer bias plot in the beginning, most likely due to the initiation errors. Initiation errors could include sudden changes in motion of the quad rotor, temporary effects of sensor being turned on for the first time or due to power-up transients. The recovered trajectory corresponds to my expectation, i.e, without accelerometer z bias, the estimate will drift instead of going from 0 to 0.6 as it did with accelerometer z bias.
+
 # Reference
 https://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets
