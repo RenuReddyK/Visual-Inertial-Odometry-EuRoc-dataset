@@ -1,4 +1,4 @@
-# Visual-Inertial-Odometry-(EuRoc-dataset)
+# Visual-Inertial-Odometry-Quadrotor
 
 First computed pose from Stereo correspondences using using portions of EuRoc dataset collected at ETH Zurich. Then
 estimated the pose of the robot fusing the sensor information from the onboard IMU and Stereo pair using a Error State
