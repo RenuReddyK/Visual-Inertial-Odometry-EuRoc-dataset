@@ -8,7 +8,6 @@ import scipy
 from matplotlib import pyplot as plt
 # import pdb
 
-
 #%% Functions
 
 def nominal_state_update(nominal_state, w_m, a_m, dt):
@@ -87,7 +86,6 @@ def error_covariance_update(nominal_state, error_state_covariance, w_m, a_m, dt,
     r_wm_wb_dt= Rotation.from_rotvec(R_m_b_dt)
     R_wm_wb_dt = Rotation.as_matrix(r_wm_wb_dt)
 
-    # Q_i= np.array([[V_i, o ,o ,o], [o, O_i, o, o], [o, o, A_i, o], [o, o, o, Omega_i]]).reshape((12,12))
     Q_i = np.zeros((4,4,3,3))
     Q_i[0,0,:,:] = V_i 
     Q_i[1,1,:,:] = O_i
@@ -99,7 +97,6 @@ def error_covariance_update(nominal_state, error_state_covariance, w_m, a_m, dt,
     Q_i_final[6:9, :] = (np.ravel(Q_i[2,:,:,:])).reshape((3,12),  order='F')
     Q_i_final[9:12, :] = (np.ravel(Q_i[3,:,:,:])).reshape((3,12),  order='F')
     
-    # F_i = np.array([[o, o, o, o],[I, o ,o ,o], [o, I, o, o], [o, o, I, o], [o, o, o, I], [o, o, o, o]]).reshape((18,12))
     F_i = np.zeros((6,4,3,3))
     F_i[1,0,:,:] = I 
     F_i[2,1,:,:] = I 
@@ -113,33 +110,6 @@ def error_covariance_update(nominal_state, error_state_covariance, w_m, a_m, dt,
     F_i_final[12:15, :] = (np.ravel(F_i[4,:,:,:])).reshape((3,12),  order='F')
     F_i_final[15:18, :] = (np.ravel(F_i[5,:,:,:])).reshape((3,12),  order='F')
    
-    # F_x = np.array([[I, I*dt, o ,o , o, o], 
-    #                 [o, I, -r_am_ab_dt * dt , -R*dt, o, I*dt],
-    #                 [o, o, r_wm_wb_dt.T, o, -I*dt, o],
-    #                 [o, o, o, I, o, o],
-    #                 [o, o, o, o, I, o],
-    #                 [o, o, o, o, o, I]]).reshape((18,18))
-    # F_x = np.zeros((6,6,3,3))
-    # F_x[0,0,:,:] = I 
-    # F_x[0,1,:,:] = I * dt 
-    # F_x[1,1,:,:] = I 
-    # F_x[1,2,:,:] = R_am_ab  * (-dt)
-    # F_x[1,3,:,:] = -R*dt 
-    # F_x[1,5,:,:] = I * dt 
-    # F_x[2,2,:,:] = R_wm_wb_dt.T 
-    # F_x[2,4,:,:] = -I * dt 
-    # F_x[3,3,:,:] = I 
-    # F_x[4,4,:,:] = I 
-    # F_x[5,5,:,:] = I 
-
-    # F_x_final = np.zeros((18,18))
-    # F_x_final[0:3, :] = (np.ravel(F_x[0,:,:,:])).reshape((3,18),  order='F')
-    # F_x_final[3:6, :] = (np.ravel(F_x[1,:,:,:])).reshape ((3,18),  order='F')
-    # F_x_final[6:9, :] = (np.ravel(F_x[2,:,:,:])).reshape((3,18),  order='F')
-    # F_x_final[9:12, :] = (np.ravel(F_x[3,:,:,:])).reshape((3,18),  order='F')
-    # F_x_final[12:15, :] = (np.ravel(F_x[4,:,:,:])).reshape((3,18),  order='F')
-    # F_x_final[15:18, :] = (np.ravel(F_x[5,:,:,:])).reshape((3,18),  order='F')
-    # print(F_x_final)
     F_x = np.zeros((18, 18))
     F_x[:3,:3] = I
     F_x[:3,3:6] = I * dt 
@@ -175,7 +145,6 @@ def measurement_update_step(nominal_state, error_state_covariance, uv, Pw, error
     # Unpack nominal_state tuple
     p, v, q, a_b, w_b, g = nominal_state
     V = v
-    # YOUR CODE HERE - compute the innovation next state, next error_state covariance
     innovation = np.zeros((2, 1))
     X = Pw[0]
     Y = Pw[1]
@@ -184,16 +153,11 @@ def measurement_update_step(nominal_state, error_state_covariance, uv, Pw, error
     P_c = R.T @ (Pw - p)
     Pc_norm = (P_c / P_c[2]).reshape(-1, 1)
     
-    # Pw_vec = np.array([[X/Z],[Y/Z]]).reshape((2,1))
     innovation = uv - Pc_norm[:2] #Pw_vec
     innovation_magnitude = np.linalg.norm(innovation)
     if error_threshold > innovation_magnitude:
         P_c = R.T @ (Pw - p)
-        # X_c = X
-        # Y_c = Y
-        # Z_c = Z
-        # u = X_c/Z_c 
-        # v = Y_c/Z_c
+        
         X_c = P_c[0]
         Y_c = P_c[1]
         Z_c = P_c[2]
@@ -225,7 +189,6 @@ def measurement_update_step(nominal_state, error_state_covariance, uv, Pw, error
 
         error_state_covariance = (np.identity(18) - K_t @ H_t) @ error_state_covariance @ (np.identity(18) - K_t @ H_t).T + K_t @ Q_t @ K_t.T
         error_state_covariance = np.array(error_state_covariance, dtype = np.float64)
-
     
         p = p + Error_state_vector_del_x[0:3]
         V = V + Error_state_vector_del_x[3:6]
