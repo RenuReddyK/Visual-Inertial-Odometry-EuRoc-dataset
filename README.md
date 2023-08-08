@@ -4,8 +4,10 @@ First computed pose from Stereo correspondences using using portions of EuRoc da
 estimated the pose of the robot fusing the sensor information from the onboard IMU and Stereo pair using a Error State
 Kalman Filter based approach (ESKF).
 
-# The ESKF algorithm consists of three main tasks:
+# RANSAC implementation
+The task involves implementing the RANSAC algorithm to estimate the rotation and translation from stereo correspondences. The algorithm iteratively selects random subsets of correspondences, evaluates inliers using a threshold, and returns the recovered w and t estimates along with the inlier boolean array.
 
+# The ESKF algorithm consists of three main tasks:
 Task 1: Updating the Nominal State
 The first step in the ESKF algorithm involves updating the nominal state based on the prevailing measurements from the Inertial Measurement Unit (IMU).
 
